@@ -3,5 +3,4 @@
 # Intellij ignore commits.
 .idea
 *.iml
-resources
 out
