@@ -32,7 +32,7 @@ class VCFConfiguration:
     def open_all_vcfs(self):
         """
         Creates a list of file objects for all vcfs in vcf_dir
-        :return: type list(file). A list of opened VCF file objects in vcf_dir. 
+        :return: type list(file). A list of opened VCF file objects in vcf_dir.
         """
         return [open(vcf, 'r') for vcf in self.all_vcfs()]
 
@@ -50,7 +50,7 @@ class VCFConfiguration:
         """
         if not self.vcf_filename:
             raise VcfMisconfigured("VCF not configured.")
-        return os.path.join(self.vcf_dir, self.vcf_filename + '.vcf')
+        return os.path.join(self.vcf_dir, self.vcf_filename)
 
     def open_vcf(self):
         """

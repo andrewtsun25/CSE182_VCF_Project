@@ -1,6 +1,6 @@
-from vcf_conf import defaultConfig
+from vcf_config import andrew_config
 
-vcf_reader = defaultConfig.read_vcf()
+vcf_reader = andrew_config.read_vcf()
 
 # INFO=<ID=AF,Number=A,Type=Float,Description="Estimated Allele Frequencies">
 # INFO=<ID=AR2,Number=1,Type=Float,Description="Allelic R-Squared: estimated correlation between most probable ALT dose and true ALT dose">
@@ -15,12 +15,16 @@ for i, record in enumerate(vcf_reader):
     chrom = record.CHROM
     fmt = record.FORMAT
     rsid = record.ID
-    af = record.INFO['AF']
-    ar2 = record.INFO['AR2']
-    dr2 = record.INFO['DR2']
+    af = record.INFO['AF']  # Estimated allele frequencies
+    ar2 = record.INFO['AR2']  # Allelic R-Squared
+    dr2 = record.INFO['DR2']  # Dosage R-Squared
     pos = record.POS
     ref = record.REF
 
-    # Sample-specific extraction
-    call = record.sample[7]
+    # Patient-specific extraction
+    call = record.samples[7]
+    patient_id = call.sample  # Patient referenced by ID
+    gt = call.data.GT  # Genotype
+    ds = call.data.DS  # Estimated ALT dose
+    gp = call.data.GP  # Estimated Genotype Probability
     print('Record #{}: {}'.format(i, record))
