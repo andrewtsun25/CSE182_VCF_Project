@@ -71,4 +71,4 @@ class VCFConfiguration:
         return vcf.Reader(self.open_vcf())
 
 # Create your own configs down here.
-andrew_config = VCFConfiguration('/Users/atsun/Documents/vcf', 'CMS_nonCMS_chrX.annotated.phased.vcf')
+andrew_config = VCFConfiguration('/Users/atsun/Documents/CSE182/vcf', 'CMS_nonCMS_chrX.annotated.phased.vcf')
