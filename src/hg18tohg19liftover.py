@@ -2,14 +2,15 @@
 
 ## Source: https://github.com/konradjk/scripts/blob/master/liftover_vcf.py
 ## LiftOver from hg18 (or b36) to hg19
-## Konrad J. Karczewski
+## Originally written in python 2.5 by Konrad J. Karczewski
+## Translated to python 3.5 by Andrew Tsun
 
 from collections import defaultdict
 import subprocess
 import os
 import gzip
 import urllib.request
-from io import StringIO
+from io import BytesIO
 
 
 def parse_command_line_args():
@@ -38,7 +39,7 @@ def parse_command_line_args():
         file = "http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver" if ''.join(os.uname()).find(
             'Linux') > -1 else "http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.i386/liftOver"
         f = urllib.request.urlopen(file)
-        g = open(args.liftover_binary, 'w')
+        g = open(args.liftover_binary, 'wb')
         g.write(f.read())
         g.close()
         os.chmod(args.liftover_binary, 755)
@@ -46,8 +47,8 @@ def parse_command_line_args():
     if args.chain_file is None:
         args.chain_file = 'hg18_to_hg19.chain'
         f = urllib.request.urlopen("http://hgdownload.cse.ucsc.edu/goldenPath/hg18/liftOver/hg18ToHg19.over.chain.gz")
-        b = StringIO(f.read())
-        g = open(args.chain_file, 'w')
+        b = BytesIO(f.read())
+        g = open(args.chain_file, 'wb')
         g.write(gzip.GzipFile(fileobj=b).read())
         g.close()
 

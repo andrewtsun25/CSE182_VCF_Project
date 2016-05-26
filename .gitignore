@@ -4,3 +4,7 @@
 .idea
 *.iml
 out
+
+# Liftover Script dependencies.
+liftOver
+*.chain
