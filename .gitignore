@@ -8,3 +8,7 @@ out
 # Liftover Script dependencies.
 liftOver
 *.chain
+.DS_Store
+resources/.DS_Store
+shell/.DS_Store
+src/__pycache__/
