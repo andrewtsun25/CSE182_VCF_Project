@@ -5,9 +5,8 @@ with open('OmimVarLocusIdSNP.bcp') as linetext:
     line = linetext.readlines()
 
 def rsid_to_omim(line):
-    rsid_to_omim_dicts = []
     rsid_omim = {}
-    omim_temp = []
+    omim_temp = ""
     #rsid_temp = ""
     omim_id_regexp = re.compile('[0-9]+')
 
@@ -19,19 +18,17 @@ def rsid_to_omim(line):
         is_omim_id = omim_id_regexp.match(omim_id)
 
         if is_omim_id:
-            omim_temp.append(omim_id)
+            omim_temp = omim_id
 
         rsid_omim[rsid] = omim_temp
-        rsid_to_omim_dicts.append(rsid_omim)
-        rsid_omim = {}
-        omim_temp = []
+        omim_temp = ""
         #rsid_temp = ""
-    return rsid_to_omim_dicts
+    return rsid_omim
 
 convert = rsid_to_omim(line)
 
 for i in convert:
-    print (i)
+    print (convert[i])
 
 #for i in range (2000):
 #    print (line[i])
