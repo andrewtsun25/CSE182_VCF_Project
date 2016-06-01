@@ -1,34 +1,35 @@
-from collections import defaultdict
 import re
+import webbrowser
+import sys
 
-with open('OmimVarLocusIdSNP.bcp') as linetext:
-    line = linetext.readlines()
 
-def rsid_to_omim(line):
+def rsid_to_omim():
     rsid_omim = {}
-    omim_temp = ""
-    #rsid_temp = ""
     omim_id_regexp = re.compile('[0-9]+')
 
-    for i in line:
+    for i in open('OmimVarLocusIdSNP.bcp'):
         linesplit = i.split('\t')
         rsid = 'rs' + linesplit[len(linesplit)-1][:-1]
-
         omim_id = linesplit[0]
-        is_omim_id = omim_id_regexp.match(omim_id)
-
-        if is_omim_id:
-            omim_temp = omim_id
-
-        rsid_omim[rsid] = omim_temp
-        omim_temp = ""
-        #rsid_temp = ""
+        rsid_omim[rsid] = omim_id if omim_id_regexp.match(omim_id) else ''
     return rsid_omim
 
-convert = rsid_to_omim(line)
 
-for i in convert:
-    print (convert[i])
+def generate_url(args, mode='entry', openURL=True):
+    rsid_to_omim_dict = rsid_to_omim()
+    unique_omims = set(rsid_to_omim_dict[rsid] for i, rsid in enumerate(args) if rsid in rsid_to_omim_dict and i >= 1)
+    base_url = "http://api.omim.org/api/clinicalSynopsis?" if mode == 'clinical_significance' else "http://api.omim.org/api/entry?"
+    query_str = ''
+    for omim in unique_omims:
+        query_str += ("&mimNumber=" + omim)
+    query_str = query_str[1:]
+    query_str += "&format=html" if query_str else 'format=html'
+    url = base_url + query_str
+    msg = 'Clinical Significance Results from OMIM: {}'.format(url) if mode == 'clinical_significance' \
+        else 'Entries from OMIM: {}'.format(url)
+    print(msg)
+    if openURL:
+        webbrowser.open(url)
 
-#for i in range (2000):
-#    print (line[i])
+if __name__ == '__main__':
+    generate_url(sys.argv)
