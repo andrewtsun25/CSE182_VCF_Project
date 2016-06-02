@@ -25,10 +25,25 @@ def generate_url(args, mode='entry', openURL=False):
     # Changes type of search according to the input
     base_url = "http://api.omim.org/api/clinicalSynopsis?" if mode == 'clinical_significance' else "http://api.omim.org/api/entry?"
     query_str = ''
-
+    limit = 100;
     # Eliminates duplicates
-    for omim in unique_omims:
-        query_str += ("&mimNumber=" + omim)
+    for count, omim in enumerate(unique_omims):
+        if count < limit:
+            query_str += ("&mimNumber=" + omim)
+        else:
+            query_str = query_str[1:]
+
+            # Concatanates the queries in the URL
+            query_str += "&format=html" if query_str else 'format=html'
+            url = base_url + query_str
+
+            msg = 'Clinical Significance Results from OMIM: {}'.format(url) if mode == 'clinical_significance' \
+                else 'Entries from OMIM: {}'.format(url)
+            print(msg)
+            query_str = ''
+            limit += 100
+
+
     query_str = query_str[1:]
 
     # Concatanates the queries in the URL
