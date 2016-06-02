@@ -20,8 +20,6 @@ for i, record in enumerate(vcf_reader):
     dr2 = record.INFO['DR2']  # Dosage R-Squared
     pos = record.POS
     ref = record.REF
-    qual = record.QUAL
-    vcf_filter = record.FILTER
 
     # Patient-specific extraction
     call = record.samples[7]
