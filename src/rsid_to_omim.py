@@ -10,7 +10,7 @@ def rsid_to_omim():
     omim_id_regexp = re.compile('[0-9]+')
 
     #  Opens OmimVarLocusIdSNP and reads through it, creating the dictionary
-    for i in open('OmimVarLocusIdSNP.bcp'):
+    for i in open('../resources/OmimVarLocusIdSNP.bcp'):
         linesplit = i.split('\t')
         rsid = 'rs' + linesplit[len(linesplit)-1][:-1]
         omim_id = linesplit[0]

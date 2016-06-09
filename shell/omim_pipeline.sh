@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+#if we have not filtered out the 52-AA individual, call script to get individual in each file
+if [ ! -d ../filtered_vcf_files/ ];
+then
+    ./get_individual.sh
+fi
+
+#if we haven't yet aggregate the vcf files, aggregate files into complete genome.
 if [ ! -f ../resources/filtered_vcf_files/complete_genome.vcf ];
 then
     ./aggregate_vcf.sh
@@ -13,10 +20,11 @@ echo "vFile name is: ${vFile}"
 #python executable path
 pythonExe='/Library/Frameworks/Python.framework/Versions/3.4/bin/python3.4'
 
+#if we have not lifted over to hg19, call liftover script.
 if [ ! -f ../resources/filtered_vcf_files/complete_genome_hg19.vcf ];
 then
     echo "about to run liftover script"
-    #liftover scprit call
+    #liftover script call
     ${pythonExe} ../src/hg18tohg19liftover.py -i ${vFile}
 fi
 
