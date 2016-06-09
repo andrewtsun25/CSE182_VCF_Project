@@ -50,23 +50,26 @@ echo "annotatedFile name is: ${annotatedFile}"
 #
 # echo "filter_text is ${filter_text}"
 
-
+#annotated vcf genome file
 if [ ! -f ${annotatedFile} ];
 then
-    echo "running snpsift command"
+    echo "running snpeff annotation"
     snpeff eff -v GRCh37.75 ${inputFile} > ${annotatedFile}
 fi
 
+#experimental code (snpsift)
 #if [ ! -f ${filteredFile} ];
 #then
 #    snpsift filter ${filter_text} ${annotatedFile} > ${filteredFile}
 #    echo "done running snpsift"
 #fi
+
 #get all the rsIDs from the new filtered vcf file
 ${pythonExe} ../src/vcf_methods.py ${annotatedFile}
 
 outDir='../resources/output_files/'
 
+#call omim script to query omim database with all our rsIDs
 for outputFile in outDir;
 do
     ${pythonExe} ../src/rsid_to_omim.py ${outputFile}
