@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#create directory to store all the filtered vcf files that have only the 52-AA individuals
 if [ ! -d ../filtered_vcf_files/ ];
 then
     echo "creating new directory"
@@ -6,6 +7,7 @@ then
 fi
 
 output_dir='../filtered_vcf_files/'
+#loop through each vcf file, use vcf tools to filter out 52-AA sample
 for vcf_file in ../vcf_files/CMS*.vcf;
 do
     file_string="${vcf_file}"
